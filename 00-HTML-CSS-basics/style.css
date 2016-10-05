@@ -120,7 +120,7 @@ p {
 	background-color: magenta;
 }
 /*
-[class*="a"] and not[class$="r"]{
+[class*="a"]:not([class$="r"]) {
 	background-color: blue;
 }
 */
