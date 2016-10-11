@@ -15,10 +15,8 @@
 function eventOnClick(){
   var config = {
     url: 'http://api.icndb.com/jokes/random'
-  };
+};
   function resolve(xhttp) {
-    xhttp.onreadystatechange = function(event)
-    {
       var response = JSON.parse(event.target.response);
       document.getElementById('sectionHidden').innerHTML = response.value.joke;
       if (xhttp.readyState === XMLHttpRequest.DONE)
@@ -28,27 +26,29 @@ function eventOnClick(){
               document.getElementById("buttonSection").innerHTML  = xhttp.responseText.value.joke;
             }
         }
-    }
 };
-  function reject() { };
-  eventRequestReusable(config).then(resolve(response));
+  function reject() {
+    alert('Something went wrong !');
+    document.getElementById("sectionHidden").style.color = "red";
+};
+  eventRequestReusable(config).then(resolve,reject);
+
 };
 function eventRequestReusable(object, resolve, reject) {
-  var promise = new Promise( function (resolve, reject) {
+  return new Promise( function (resolve, reject) {
   var xhttp = new XMLHttpRequest();
   xhttp.open('GET', object.url , true);
-
   xhttp.send();
   xhttp.onload = function () {
-    if (this.status == 200) {
+    if (this.status != 200) {
       resolve(xhttp);
     } else {
-      reject(this.statusText);
+      reject();
     }
   };
   xhttp.onerror = function () {
-    reject(this.statusText);
+    document.getElementById("sectionHidden").style.backgroundColor = "red";;
+    reject();
   };
-  return promise;
 })
 };
