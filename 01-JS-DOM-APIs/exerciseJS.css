@@ -16,3 +16,19 @@ html, body {
   margin-left: 45%;
   text-align: center;
 }
+.listRightPositioned {
+  float: right;
+  right: 0;
+  top: 0;
+  font-size: 16px;
+  font-family: monospace;
+  text-align: justify;
+}
+.dataTables {
+  width: 50%;
+  font-family: monospace;
+  font-size: 16px;
+}
+.tableTH {
+  font-size: 20px;
+}
