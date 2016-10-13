@@ -1,95 +1,94 @@
-  function reloadPage(){
-    location.reload();
+function reloadPage () {
+  location.reload();
 };
 //EXERCISE 4
-  function eventFade()
-  {
-    setTimeout(function () {
-      document.getElementById("sectionHidden").style.display = "inline"
-    }, 2000);
+function eventFade () {
+  setTimeout(function () {
+    document.getElementById("sectionHidden").style.display = "inline"
+  }, 2000);
 };
 //EXERCISE 6
-  function eventRequest() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.open('GET', 'http://api.icndb.com/jokes/random', true);
-    xhttp.onreadystatechange = function(event) {
+function eventRequest () {
+  let xhttp = new XMLHttpRequest();
+  xhttp.open('GET', 'http://api.icndb.com/jokes/random', true);
+  xhttp.onreadystatechange = function(event) {
 
-      if (xhttp.readyState === XMLHttpRequest.DONE) {
-        var response = JSON.parse(event.target.response);
-        document.getElementById('sectionHidden').innerHTML = response.value.joke;
-      }
-   }
-   xhttp.send();
+    if (xhttp.readyState === XMLHttpRequest.DONE) {
+      let response = JSON.parse(event.target.response);
+      document.getElementById('sectionHidden').innerHTML = response.value.joke;
+    }
+  }
+  xhttp.send();
 };
 //EXERCISE 7
-function handleJokeButtonClick(){
-  var config = {
+function handleJokeButtonClick () {
+  let config = {
     url: 'http://api.icndb.com/jokes/random'
   };
 
   function resolve(xhttp) {
-    var response = JSON.parse(event.target.response);
+    let response = JSON.parse(event.target.response);
     document.getElementById('sectionHidden').innerHTML = response.value.joke;
-};
+  };
 
   function reject() {
     alert('Something went wrong !');
     document.getElementById("sectionHidden").style.color = "red";
-};
-  eventRequestReusable(config).then(resolve,reject);
+  };
+  ajaxCallReusable(config).then(resolve,reject);
 };
 //EXERCISE 9
-function handleRepositoriesButtonClick(){
-  var config = {
+function handleRepositoriesButtonClick () {
+  let config = {
     url: 'https://api.github.com/search/repositories?q=javascript'
-};
+  };
 
-  function resolve(xhttp) {
-    var response = JSON.parse(event.target.response);
+  function resolve (xhttp) {
+    let response = JSON.parse(event.target.response);
 
-    for (var index = 0; index < response.items.length; index++){
+    response.map(function (response) {
       var newLi = document.createElement("li");
-      var dataContainer = document.createTextNode(response.items[index].full_name);
+      var dataContainer = document.createTextNode(item.full_name);
       newLi.appendChild(dataContainer);
       document.getElementById('repositoriesList').appendChild(newLi);
-    }
-};
+    });
+  };
 
-  function reject() {
+  function reject () {
     alert('Something went wrong !');
     document.getElementById("sectionHidden").style.color = "red";
-};
-  eventRequestReusable(config).then(resolve,reject);
+  };
+  ajaxCallReusable(config).then(resolve,reject);
 };
 //EXERCISE 10
-function handleRepositoriesModifiedButtonClick(repoName){
-  var search = repoName.value;
-  var urlBasic = "https://api.github.com/search/repositories?q="
-  var config = {
+function handleRepositoriesModifiedButtonClick (repoName) {
+  let search = repoName.value;
+  let urlBasic = "https://api.github.com/search/repositories?q="
+  let config = {
     url: urlBasic.concat(search)
-};
+  };
 
-  function resolve(xhttp) {
-    var response = JSON.parse(event.target.response);
+  function resolve (xhttp) {
+    let response = JSON.parse(event.target.response);
 
-    for (var index = 0; index < response.items.length; index++){
-      var newLi = document.createElement("li");
-      var dataContainer = document.createTextNode(response.items[index].full_name);
+    for (let index = 0; index < response.items.length; index++) {
+      let newLi = document.createElement("li");
+      let dataContainer = document.createTextNode(response.items[index].full_name);
       newLi.appendChild(dataContainer);
       document.getElementById('repositoriesList').appendChild(newLi);
     }
-};
+  };
 
-  function reject() {
+  function reject () {
     alert('Something went wrong !');
     document.getElementById("sectionHidden").style.color = "red";
-};
-  eventRequestReusable(config).then(resolve,reject);
+  };
+  ajaxCallReusable(config).then(resolve,reject);
 };
 //EXERCISE 7 AND 9
-function eventRequestReusable(config, resolve, reject) {
+function ajaxCallReusable (config, resolve, reject) {
   return new Promise( function (resolve, reject) {
-  var xhttp = new XMLHttpRequest();
+  let xhttp = new XMLHttpRequest();
   xhttp.open('GET', config.url , true);
   xhttp.send();
   xhttp.onload = function () {
@@ -104,5 +103,5 @@ function eventRequestReusable(config, resolve, reject) {
     document.getElementById("sectionHidden").style.backgroundColor = "red";
     reject();
   };
-})
+  })
 };
