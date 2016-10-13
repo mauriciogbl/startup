@@ -25,7 +25,7 @@
 function handleJokeButtonClick(){
   var config = {
     url: 'http://api.icndb.com/jokes/random'
-};
+  };
 
   function resolve(xhttp) {
     var response = JSON.parse(event.target.response);
@@ -87,10 +87,10 @@ function handleRepositoriesModifiedButtonClick(repoName){
   eventRequestReusable(config).then(resolve,reject);
 };
 //EXERCISE 7 AND 9
-function eventRequestReusable(object, resolve, reject) {
+function eventRequestReusable(config, resolve, reject) {
   return new Promise( function (resolve, reject) {
   var xhttp = new XMLHttpRequest();
-  xhttp.open('GET', object.url , true);
+  xhttp.open('GET', config.url , true);
   xhttp.send();
   xhttp.onload = function () {
 
