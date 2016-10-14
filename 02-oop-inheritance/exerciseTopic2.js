@@ -1,4 +1,4 @@
-function reloadPage(){
+function reloadPage () {
   location.reload();
 };
 
@@ -9,21 +9,67 @@ class movieClass {
     this.duration = duration;
   }
 
-  play() { };
-  pause() { };
-  resume() { };
-}
+  play () { };
 
-function createButtonHandler(titleInpt, yearInpt, durationInpt) {
-  var title = titleInpt.value;
-  var year = yearInpt.value;
-  var duration = durationInpt.value;
-  let movie1 = new movieClass(title, year, duration);
-  let movie2 = new movieClass('Lord of the Rings I', 1996, '3:40');
-  let movie3 = new movieClass('Lord of the Rings II', 1997, '4:40');
-  let movie4 = new movieClass('Lord of the Rings III', 1998, '4:20');
-  console.log(movie1);
-  console.log(movie2);
-  console.log(movie3);
-  console.log(movie4);
+  pause () { };
+
+  resume () { };
 };
+
+class EventEmitter {
+  constructor() {
+    this.listeners = new Map();
+  }
+
+  on(event, callback) {
+   this.listeners.has(event) || this.listeners.set(event, []);
+   this.listeners.get(event).push(callback);
+ }
+
+  emit(event, ...args) {
+   let listeners = this.listeners.get(event);
+
+   if (listeners && listeners.length) {
+       listeners.forEach((listener) => {
+           listener(...args);
+       });
+       return true;
+   }
+   return false;
+ }
+
+  off (event, callback) {
+    let listeners = this.listeners.get(event),
+        index;
+
+    if (listeners && listeners.length) {
+        index = listeners.reduce((i, listener, index) => {
+            return (isFunction(listener) && listener === callback) ?
+                i = index :
+                i;
+        }, -1);
+
+        if (index > -1) {
+            listeners.splice(index, 1);
+            this.listeners.set(event, listeners);
+            return true;
+        }
+    }
+    return false;
+  }
+};
+
+  let isFunction = function(obj) {
+    return typeof obj == 'function' || false;
+  };
+  let observable = new EventEmitter();
+  let movie1= new movieClass('Lord of the Rings I', 1996, '3:40');
+  movie1.play();
+
+  function functionShowTitle () {
+    console.log("Testing class EventEmmiter " + movie1.title + ' - ' + movie1.year)
+  }
+  observable.on(movie1.play(),  functionShowTitle);
+  observable.emit(movie1.play(), movie1);
+  observable.off(movie1.play(), functionShowTitle);
+  observable.emit(movie1.play(), movie1);
