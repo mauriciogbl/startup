@@ -1,75 +1,64 @@
-function reloadPage () {
-  location.reload();
-};
-
-class movieClass {
-  constructor(title, year, duration) {
-    this.title = title;
-    this.year = year;
-    this.duration = duration;
-  }
-
-  play () { };
-
-  pause () { };
-
-  resume () { };
-};
-
 class EventEmitter {
-  constructor() {
-    this.listeners = new Map();
-  }
+constructor () {
+  this.listeners = [];
+}
 
-  on(event, callback) {
-   this.listeners.has(event) || this.listeners.set(event, []);
-   this.listeners.get(event).push(callback);
+on (event, callback) {
+  if(this.listeners[event] != callback){
+    this.listeners[event] = callback
+  }
+}
+
+off (event, callback) {
+  if(this.listeners[event]) this.listeners[event] = undefined;
+}
+
+emit (movie, event) {
+   if(this.listeners[event]) this.listeners[event](movie, event);
+ }
+}
+
+class logger {
+ constructor(){
+
  }
 
-  emit(event, ...args) {
-   let listeners = this.listeners.get(event);
-
-   if (listeners && listeners.length) {
-       listeners.forEach((listener) => {
-           listener(...args);
-       });
-       return true;
-   }
-   return false;
+ log(info, functionName){
+     console.log(info.title + ' ' + functionName)
  }
+}
 
-  off (event, callback) {
-    let listeners = this.listeners.get(event),
-        index;
+let myEmitter = new EventEmitter;
+let mylogger = new logger;
 
-    if (listeners && listeners.length) {
-        index = listeners.reduce((i, listener, index) => {
-            return (isFunction(listener) && listener === callback) ?
-                i = index :
-                i;
-        }, -1);
+class classMovie extends EventEmitter{
+constructor(title, year, duration){
+  super();
+  this.title = title;
+  this.year = year;
+  this.duration = duration;
+}
+play(){
+  super.emit(this, 'play');
+}
+pause(){
+  super.emit(this, 'pause');
+}
+resume(){
+  super.emit(this, 'resume');
+}
+}
 
-        if (index > -1) {
-            listeners.splice(index, 1);
-            this.listeners.set(event, listeners);
-            return true;
-        }
-    }
-    return false;
-  }
-};
+let Movie1 = new classMovie("Lord of the Rings I", "1996", "220");
+let Movie2 = new classMovie("Lord of the Rings II", "1997", "320");
+let Movie3 = new classMovie("Lord of the Rings III", "1998", "300");
 
-  let isFunction = function(obj) {
-    return typeof obj == 'function' || false;
-  };
-  let observable = new EventEmitter();
-  let movie1= new movieClass('Lord of the Rings I', 1996, '3:40');
-  movie1.play();
 
-  function functionShowTitle () {
-    console.log("Testing class EventEmmiter " + movie1.title + ' - ' + movie1.year)
-  }
-  observable.on(movie1.play(),  functionShowTitle);
-  observable.emit(movie1.play(), movie1);
-  observable.off(movie1.play(), functionShowTitle);
-  observable.emit(movie1.play(), movie1);
+Movie1.on('play', mylogger.log);
+Movie1.play();
+
+Movie1.on('resume', mylogger.log);
+Movie1.resume();
+
+Movie1.off('play', mylogger.log);
+Movie1.play();
