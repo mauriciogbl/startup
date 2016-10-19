@@ -3,7 +3,7 @@ import {Actor} from './Actors';
 import {classMovie} from './ClassMovie';
 import {logger} from './Logger';
 
-var Social = {
+let Social = {
   likes: function(friendName)
     {
       console.log(`${friendName} likes ${this.title}`)

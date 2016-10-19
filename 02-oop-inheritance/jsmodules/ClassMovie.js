@@ -19,15 +19,7 @@ class classMovie extends EventEmitter{
   addCast(actor) {
 
     if (Array.isArray(actor)) {
-      let maxIndex = actor.length;
-      let i = this.cast.length;
-      let j = 0;
-      do
-        {
-          this.cast.push(actor[j]);
-          j++;
-          i++;
-        } while(j <= maxIndex && i <= 4)
+      concat(this.cast,actor);
     }
     else if (typeof actor === 'object') {
 
