@@ -19,7 +19,7 @@ class classMovie extends EventEmitter{
   addCast(actor) {
 
     if (Array.isArray(actor)) {
-      concat(this.cast,actor);
+      this.cast = this.cast.concat(actor);
     }
     else if (typeof actor === 'object') {
 
