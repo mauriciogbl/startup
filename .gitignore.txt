@@ -1,2 +1,0 @@
-/node_modules/*
-/05-UI-ReactJS/react-builder-master/*
