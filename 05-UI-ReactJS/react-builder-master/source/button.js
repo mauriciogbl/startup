@@ -5,12 +5,24 @@ class Button extends React.Component{
     super(props);
     this.state = { }
   }
-    render() {
+
+  render() {
         return (
             <div className="buttonsSection">
-              <button onClick={this.props.Click} className={this.props.clase} id={this.props.id} type="button" name="button">{this.props.value}</button>
+              <button {...this.getProps()}>{this.props.value}</button>
             </div>
         );
-    }
+  }
+
+  getProps () {
+    return {
+      className: this.props.clase,
+      id: this.props.id,
+      name: "button",
+      onClick: this.props.click,
+      type: "button"
+    };
+  }
 };
+
 export default Button
