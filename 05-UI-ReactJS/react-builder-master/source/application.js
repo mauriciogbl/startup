@@ -1,7 +1,7 @@
 import React from 'react';
 import List from './list';
 import Add from './add';
-import Edit from './edit';
+import Form from './form'
 
 class Application extends React.Component {
 
@@ -14,12 +14,19 @@ class Application extends React.Component {
     return (
       <div>
         <Add />
-        <h1>Favourites Movies</h1>
-        <List movies={this.getAllMovies()} />
-        <h1>All Movies</h1>
-        <Edit movies={this.getAllMovies()} />
+        <h1>List of Movies</h1>
+        <List movies={this.getAllMovies()} onSubmit={this.handleChange} />
       </div>
     );
+  }
+
+  handleChange (index) {s
+    console.log(index);
+    let movies = JSON.parse(localStorage.getItem("moviesLocalStorage"));
+    console.log(movies[index]);
+    return (
+      <Form title={movies[index].title} year={movies[index].year} duration={movies[index].duration} fav={movies[index].fav} />
+    )
   }
 };
 

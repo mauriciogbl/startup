@@ -6,14 +6,22 @@ class Form extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
-      title: "",
-      year: "",
-      duration: "",
-      fav: false
+      title: this.props.title,
+      year: this.props.year,
+      duration: this.props.duration,
+      fav: this.getDefaultFav()
     };
   }
 
+  getDefaultFav() {
+
+    if (this.props.fav != undefined && this.props.fav != null) {
+      return this.props.fav
+    }
+    return false;
+  }
   handlerChange(param, event) {
     let newState = this.state;
 
@@ -27,7 +35,6 @@ class Form extends React.Component {
   }
 
   handlerSubmit(event) {
-
     if (this.props.onSubmit) {
       this.props.onSubmit(this.state);
     }
@@ -43,7 +50,7 @@ class Form extends React.Component {
         <Input id="durationInput" value={this.state.duration} onChange={this.handlerChange.bind(this, 'duration')} type="text" holder="Duration" />
         <br />
         <p>Favorite</p><input id="favoriteInput" value={this.state.fav} onChange={this.handlerChange.bind(this, 'fav')} type="checkbox" />
-        <Button click={this.handlerSubmit.bind(this)} clase="button" id="createButton" value="Create" />
+        <Button click={this.handlerSubmit.bind(this)} clase="button" id="createButton" value="Submit" />
       </div>
     );
   }
