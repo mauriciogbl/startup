@@ -2,32 +2,24 @@ import React from 'react';
 import List from './list';
 import Add from './add';
 import Form from './form'
+import { Link } from 'react-router';
+import moviesApp from './reducers.js';
+import moviesStore from './store';
+import { addMovie, editMovie, deleteMovie, initialize } from './actions';
 
 class Application extends React.Component {
+  constructor(props) {
+    super(props);
 
-  getAllMovies() {
-    let movies = localStorage.getItem("moviesLocalStorage") || [];
-    return JSON.parse(movies);
-  }
+  };
 
   render() {
     return (
       <div>
-        <Add />
-        <h1>List of Movies</h1>
-        <List movies={this.getAllMovies()} onSubmit={this.handleChange} />
+        <Link to="/add" className="links">Add</Link>
+        <Link to="/list" className="links">List</Link>
       </div>
     );
   }
-
-  handleChange (index) {s
-    console.log(index);
-    let movies = JSON.parse(localStorage.getItem("moviesLocalStorage"));
-    console.log(movies[index]);
-    return (
-      <Form title={movies[index].title} year={movies[index].year} duration={movies[index].duration} fav={movies[index].fav} />
-    )
-  }
 };
-
 export default Application

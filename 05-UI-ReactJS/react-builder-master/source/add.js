@@ -1,5 +1,8 @@
 import React from 'react';
 import Form from './form';
+import Application from './application';
+import moviesStore from './store';
+import { addMovie, editMovie, deleteMovie, initialize } from './actions';
 
 class Add extends React.Component {
   constructor(props) {
@@ -9,14 +12,20 @@ class Add extends React.Component {
   }
 
   handlerSubmitForm(event) {
-    let movies = JSON.parse(localStorage.getItem("moviesLocalStorage")) || [];
-    movies.push(event);
-    localStorage.setItem("moviesLocalStorage", JSON.stringify(movies));
+    moviesStore.dispatch(initialize());
+    moviesStore.dispatch(addMovie(event));
+  }
+  handlerButton() {
+    console.log(index);
   }
 
   render() {
     return (
+      <div>
+      <Application />
+      <h1>Add a new movie</h1>
       <Form onSubmit={this.handlerSubmitForm} />
+      </div>
     );
   }
 };

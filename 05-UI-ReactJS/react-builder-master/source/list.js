@@ -1,7 +1,12 @@
 import React from 'react';
 import Button from './button';
+import Form from './form';
 import Input from './input';
+import Application from './application';
+import moviesStore from './store';
+import { Link } from 'react-router';
 
+import { addMovie, editMovie, deleteMovie, initialize } from './actions';
 
 class List extends React.Component {
   constructor(props) {
@@ -10,23 +15,27 @@ class List extends React.Component {
     this.state = {
       selected: false
     }
-    this.renderList = this.renderList.bind(this);
     this.renderItem = this.renderItem.bind(this);
-    this.handlerChange = this.handlerChange.bind(this);
+    this.getAllMovies = this.getAllMovies.bind(this);
+    this.handleClickEdit = this.handleClickEdit.bind(this);
   }
+
 
   editItem() {
     <Item movie={item} index={index} />
   }
 
-  renderList () {
-    return this.props.movies.map(this.renderItem);
+  getAllMovies() {
+    let movies = [];
+    if (localStorage.getItem("moviesLocalStorage")) {
+      movies = JSON.parse(localStorage.getItem("moviesLocalStorage"));
+    }
+    return movies.map(this.renderItem);
   }
-
-  handlerChange(event) {
-    let newState = this.state;
-    newState.selected = event.target.checked
-    this.setState(newState);
+  handleClickEdit(index, title, year, duration) {
+    console.log('intento editar una pelicula')
+    moviesStore.dispatch(initialize());
+    moviesStore.dispatch(editMovie(index));
   }
 
   renderItem (item, index) {
@@ -35,23 +44,20 @@ class List extends React.Component {
       favorite = "Favorite";
     }
     return (
-      <li key={index}>
+      <li className="li" key={index}>
         {`Title: ${item.title} Year: ${item.year} Duration: ${item.duration} - ${favorite}`}
-        <button onClick={this.click.bind(this, index)}>Edit</button>
+        <Link to='/add?index' className="link-edit">edit</Link>
       </li>
 
     );
   }
 
-  click (index) {
-    console.log(index);
-    this.props.onSubmit(index)
-  }
-
   render() {
     return (
       <div>
-        {this.renderList()}
+        <Application />
+        <h1>List of Movies</h1>
+        {this.getAllMovies()}
       </div>
     );
   }

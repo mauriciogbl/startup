@@ -43,11 +43,11 @@ class Form extends React.Component {
   render() {
     return (
       <div className="inputsContent">
-        <Input id="titleInput" value={this.state.title} onChange={this.handlerChange.bind(this, 'title')} type="text" holder="Title" />
+        <Input id="titleInput" value={this.state.title} onChange={this.handlerChange.bind(this, 'title')} type="text" holder={this.props.title || "Title"} />
         <br />
-        <Input id="yearInput" value={this.state.year} onChange={this.handlerChange.bind(this, 'year')} type="text" holder="Year" />
+        <Input id="yearInput" value={this.state.year} onChange={this.handlerChange.bind(this, 'year')} type="text" holder={this.props.year || "Year"} />
         <br />
-        <Input id="durationInput" value={this.state.duration} onChange={this.handlerChange.bind(this, 'duration')} type="text" holder="Duration" />
+        <Input id="durationInput" value={this.state.duration} onChange={this.handlerChange.bind(this, 'duration')} type="text" holder={this.props.duration || "Duration"} />
         <br />
         <p>Favorite</p><input id="favoriteInput" value={this.state.fav} onChange={this.handlerChange.bind(this, 'fav')} type="checkbox" />
         <Button click={this.handlerSubmit.bind(this)} clase="button" id="createButton" value="Submit" />
@@ -57,3 +57,36 @@ class Form extends React.Component {
 };
 
 export default Form
+
+// fillHolder(param, event) {
+//   switch (param) {
+//     case 'title':
+//       if (this.props.title) {
+//         this.holder = this.props.title;
+//         break;
+//       }
+//       else {
+//         this.holder = 'title';
+//         break;
+//       }
+//     case 'year':
+//       if (this.props.year) {
+//         this.holder = this.props.year;
+//         break;
+//       }
+//       else {
+//         return 'year';
+//         break;
+//       }
+//     case'duration':
+//       if (this.props.duration) {
+//         this.holder = this.props.duration;
+//         break;
+//       }
+//       else {
+//         return 'duration';
+//         break;
+//       }
+//     default:
+//
+//   }
