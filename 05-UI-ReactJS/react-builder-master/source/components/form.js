@@ -3,7 +3,6 @@ import Button from './button';
 import Input from './input';
 
 class Form extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -11,17 +10,10 @@ class Form extends React.Component {
       title: this.props.title,
       year: this.props.year,
       duration: this.props.duration,
-      fav: this.getDefaultFav()
+      fav: this.props.favorite
     };
   }
 
-  getDefaultFav() {
-
-    if (this.props.fav != undefined && this.props.fav != null) {
-      return this.props.fav
-    }
-    return false;
-  }
   handlerChange(param, event) {
     let newState = this.state;
 
@@ -36,7 +28,7 @@ class Form extends React.Component {
 
   handlerSubmit(event) {
     if (this.props.onSubmit) {
-      this.props.onSubmit(this.state);
+      this.props.onSubmit(this.state, this.props.index, this.props.action);
     }
   }
 
@@ -49,7 +41,7 @@ class Form extends React.Component {
         <br />
         <Input id="durationInput" value={this.state.duration} onChange={this.handlerChange.bind(this, 'duration')} type="text" holder={this.props.duration || "Duration"} />
         <br />
-        <p>Favorite</p><input id="favoriteInput" value={this.state.fav} onChange={this.handlerChange.bind(this, 'fav')} type="checkbox" />
+        <p>Favorite</p><input id="favoriteInput" checked={this.state.fav} onChange={this.handlerChange.bind(this, 'fav')} type="checkbox" />
         <Button click={this.handlerSubmit.bind(this)} clase="button" id="createButton" value="Submit" />
       </div>
     );
@@ -57,36 +49,3 @@ class Form extends React.Component {
 };
 
 export default Form
-
-// fillHolder(param, event) {
-//   switch (param) {
-//     case 'title':
-//       if (this.props.title) {
-//         this.holder = this.props.title;
-//         break;
-//       }
-//       else {
-//         this.holder = 'title';
-//         break;
-//       }
-//     case 'year':
-//       if (this.props.year) {
-//         this.holder = this.props.year;
-//         break;
-//       }
-//       else {
-//         return 'year';
-//         break;
-//       }
-//     case'duration':
-//       if (this.props.duration) {
-//         this.holder = this.props.duration;
-//         break;
-//       }
-//       else {
-//         return 'duration';
-//         break;
-//       }
-//     default:
-//
-//   }
