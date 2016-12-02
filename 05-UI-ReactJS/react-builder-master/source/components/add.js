@@ -2,82 +2,55 @@ import React from 'react';
 import Form from './form';
 import Button from './button';
 import Application from './application';
+import {ADD_MOVIE, EDIT_MOVIE, DELETE_MOVE, INITIALIZE} from '../actions/actions';
+import moviesStore from '../index.js';
 
-
+const actions = {ADD_MOVIE, EDIT_MOVIE, DELETE_MOVE, INITIALIZE};
 class Add extends React.Component {
   constructor(props) {
     super(props);
 
-    this.states = { };
-    this.getMovieById = this.getMovieById.bind(this);
-    this.getTitle = this.getTitle.bind(this);
-    this.getYear = this.getYear.bind(this);
-    this.getDuration = this.getDuration.bind(this);
-    this.getFav = this.getFav.bind(this);
-    this.getIdx = this.getIdx.bind(this);
+    this.state = { };
+    this.handleSubmitForm = this.handleSubmitForm.bind(this)
   }
 
-  handlerSubmitForm(event, indexMovieEdited, action) {
-    if (indexMovieEdited === null || indexMovieEdited === undefined) {
-      action.addMovie(event)
-    }
-    else {
-      action.editMovie(event, indexMovieEdited);
-    }
+  static defaultProps() {
+    duration: '';
+    favorite: '';
+    index: '';
+    title: '';
+    year: ''
   }
 
-  getMovieById() {
-    return this.props.movies.moviesState[this.props.params.idxMovie];
-  }
-
-  getTitle() {
-    let movieSelected = this.getMovieById();
-    if (movieSelected === null || movieSelected === undefined) {
-      return '';
-    }
-    return movieSelected.title;
-  }
-
-  getYear() {
-    let movieSelected = this.getMovieById();
-    if (movieSelected === null || movieSelected === undefined) {
-      return '';
-    }
-    return movieSelected.year;
-  }
-
-  getDuration() {
-    let movieSelected = this.getMovieById();
-    if (movieSelected === null || movieSelected === undefined) {
-      return '';
-    }
-    return movieSelected.duration;
-  }
-
-  getFav() {
-    let movieSelected = this.getMovieById();
-    if (movieSelected === null || movieSelected === undefined) {
-      return '';
-    }
-
-    return movieSelected.fav ;
-  }
-
-  getIdx() {
-    return this.props.params.idxMovie;
+  handleSubmitForm(event) {
+    // if (indexMovieEdited === null || indexMovieEdited === undefined) {
+        this.props.actions.addMovie(event)
+    // }
+    // else {
+    //   action.editMovie(event);
+    // }
   }
 
   render() {
-    console.log('props en add',this.props.movies)
     return (
       <div>
-      <Application />
-      <h1>Add a new movie</h1>
-      <Form onSubmit={this.handlerSubmitForm} action={this.props.actions} index={this.getIdx()} title={this.getTitle()} year={this.getYear()} duration={this.getDuration()} favorite={this.getFav()} />
+        <h1>Add a new movie</h1>
+        <Form {...this.getFormProps()}/>
       </div>
     );
   }
-};
-// <Form onSubmit={this.handlerSubmitForm} index={this.getIdx()} title={this.getTitle()} year={this.getYear()} duration={this.getDuration()} favorite={this.getFav()} />
 
+  getFormProps() {
+    return {
+      action: this.props.actions,
+      onSubmit: this.handleSubmitForm
+    }
+  }
+};
 export default Add
+
+// duration: this.props.movies.moviesState[this.props.params.idxMovie].duration,
+// favorite: this.props.movies.moviesState[this.props.params.idxMovie].title.fav,
+// index: this.props.params.idxMovie,
+// title: this.props.movies.moviesState[this.props.params.idxMovie].title,
+// year: this.props.movies.moviesState[this.props.params.idxMovie].year

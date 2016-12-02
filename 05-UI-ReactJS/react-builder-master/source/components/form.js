@@ -12,40 +12,91 @@ class Form extends React.Component {
       duration: this.props.duration,
       fav: this.props.favorite
     };
+
+    this.handlerSubmit = this.handlerSubmit.bind(this);
+    this.handlerChange = this.handlerChange.bind(this)
   }
 
-  handlerChange(param, event) {
+  handlerChange(typeOfChange, event) {
     let newState = this.state;
 
-    if (param === 'fav') {
-      newState[param] = event.target.checked
-    }
-    else {
-      newState[param] = event.target.value
-    }
+    typeOfChange === 'fav' ? (
+      newState[typeOfChange]=event.target.checked
+    ) : (
+      newState[typeOfChange]=event.target.value
+    );
+
     this.setState(newState);
   }
 
   handlerSubmit(event) {
     if (this.props.onSubmit) {
-      this.props.onSubmit(this.state, this.props.index, this.props.action);
+      this.props.onSubmit(this.state);
     }
   }
 
   render() {
     return (
       <div className="inputsContent">
-        <Input id="titleInput" value={this.state.title} onChange={this.handlerChange.bind(this, 'title')} type="text" holder={this.props.title || "Title"} />
+        <Input {...this.getInputTitleProps()} />
         <br />
-        <Input id="yearInput" value={this.state.year} onChange={this.handlerChange.bind(this, 'year')} type="text" holder={this.props.year || "Year"} />
+        <Input {...this.getInputYearProps()} />
         <br />
-        <Input id="durationInput" value={this.state.duration} onChange={this.handlerChange.bind(this, 'duration')} type="text" holder={this.props.duration || "Duration"} />
+        <Input {...this.getInputDurationProps()} />
         <br />
-        <p>Favorite</p><input id="favoriteInput" checked={this.state.fav} onChange={this.handlerChange.bind(this, 'fav')} type="checkbox" />
+        <p>Favorite</p><input {...this.getInputFavoriteProps()} />
         <Button click={this.handlerSubmit.bind(this)} clase="button" id="createButton" value="Submit" />
       </div>
     );
   }
-};
+
+  getButtonProps() {
+    return {
+      click: this.handlerSubmit,
+      clase: 'button',
+      id: 'createButton',
+      value: 'Submit'
+    }
+  }
+
+  getInputDurationProps() {
+    return {
+      id: 'durationInput',
+      value: this.state.duration,
+      onChange: this.handlerChange.bind(this, 'duration'),
+      type: 'text',
+      holder: this.props.duration || 'Duration'
+    }
+  }
+
+  getInputFavoriteProps() {
+    return {
+      id: 'favoriteInput',
+      checked: this.state.fav,
+      onChange: this.handlerChange.bind(this, 'fav'),
+      type: 'checkbox'
+    }
+  }
+
+  getInputTitleProps() {
+    return {
+      id: 'titleInput',
+      value: this.state.title,
+      onChange: this.handlerChange.bind(this, 'title'),
+      type: 'text',
+      holder: this.props.title || 'Title'
+    }
+  }
+
+  getInputYearProps() {
+    return {
+      id: 'yearInput',
+      value: this.state.year,
+      onChange: this.handlerChange.bind(this, 'year'),
+      type: 'text',
+      holder: this.props.year || 'Year'
+    }
+  }
+}
 
 export default Form

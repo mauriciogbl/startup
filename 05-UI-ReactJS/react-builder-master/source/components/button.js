@@ -3,15 +3,15 @@ import React from 'react';
 class Button extends React.Component{
   constructor(props) {
     super(props);
-    this.state = { }
+    this.state = {};
   }
 
   render() {
-        return (
-            <div className="buttonsSection">
-              <button {...this.getProps()}>{this.props.value}</button>
-            </div>
-        );
+    return (
+      <div className="buttonsSection">
+        <button {...this.getProps()}>{this.props.value}</button>
+      </div>
+    );
   }
 
   getProps () {

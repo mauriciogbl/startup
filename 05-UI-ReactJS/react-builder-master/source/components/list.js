@@ -1,8 +1,8 @@
 import React from 'react';
 import Application from '../components/application';
 import { Link } from 'react-router';
-import Button from './button'
-import movies from './application'
+import Button from './button';
+import {ADD_MOVIE, EDIT_MOVIE, DELETE_MOVE, INITIALIZE} from '../actions/actions';
 
 class List extends React.Component {
   constructor(props) {
@@ -14,34 +14,8 @@ class List extends React.Component {
     this.renderItem = this.renderItem.bind(this);
     this.getAllMovies = this.getAllMovies.bind(this);
   }
-  editItem() {
-    <Item movie={item} index={index} />
-  }
-
-  getAllMovies() {
-    return this.props.movies.moviesState.map(this.renderItem);
-  }
-
-  handleClickDelete(index) {
-    this.props.actions.deleteMovie(index)
-  }
-  renderItem (item, index) {
-    let favorite = "Not favorite"
-    if (item.fav) {
-      favorite = "Favorite";
-    }
-    return (
-      <li className="li" key={index}>
-        {`Title: ${item.title} Year: ${item.year} Duration: ${item.duration} - ${favorite}`}
-        <Link to={`add/${index}`}className="link-edit">edit</Link>
-        <Button click={this.handleClickDelete.bind(this, index)} clase="link-edit" value="Delete" />
-      </li>
-
-    );
-  }
 
   render() {
-    console.log('props en list', this.props.movies)
     return (
       <div>
         <Application />
@@ -50,6 +24,32 @@ class List extends React.Component {
       </div>
     );
   }
+
+  renderItem (item, index) {
+    let favorite = "Not favorite";
+    item.fav ? favorite = "Favorite" : favorite = "Not favorite";
+    return (
+      <li className="listOfMovies" key={index}>
+        {`Title: ${item.title} Year: ${item.year} Duration: ${item.duration} - ${favorite}`}
+        <Link to={`add/${index}`}className="link-edit">edit</Link>
+        <Button click={this.handleClickDelete.bind(this, index)} clase="link-edit" value="Delete" />
+      </li>
+    );
+  }
+
+
+  editItem() {
+    <Item movie={item} index={index} />
+  }
+
+  handleClickDelete(index) {
+    this.props.actions.deleteMovie(index)
+  }
+
+  getAllMovies() {
+    return this.props.movies.moviesState.map(this.renderItem);
+  }
+
 };
 
 export default List

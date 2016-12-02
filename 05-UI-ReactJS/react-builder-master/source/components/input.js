@@ -8,9 +8,7 @@ class Input extends React.Component{
 
   render() {
     return (
-      <div>
-        <input {...this.getProps()}></input>
-      </div>
+      <input {...this.getProps()}></input>
     );
   }
 

@@ -8,15 +8,16 @@ import Add from './components/add';
 import List from './components/list';
 import moviesApp from './reducers/reducers';
 
-const moviesStore = createStore(moviesApp)
+export const moviesStore = createStore(moviesApp)
 const appRoute = document.getElementById('app');
  ReactDOM.render(
   <Provider store={moviesStore}>
     <Router history={hashHistory}>
-      <Route path='/' component={App} />
-      <Route path='/add' component={Add} />
-      <Route path='/add/(:idxMovie)' component={Add} />
-      <Route path='/list' component={List} />
+      <Route path='/' component={App}>
+        <Route path='/add' component={Add}> </Route> 
+        <Route path='/add/(:idxMovie)' component={Add}> </Route>
+        <Route path='/list' component={List}> </Route>
+      </Route>
     </Router>
   </Provider>,
   appRoute
