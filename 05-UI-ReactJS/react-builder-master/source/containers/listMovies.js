@@ -1,19 +1,17 @@
 import React from 'react'
-import Add from '../components/add'
 import List from '../components/list'
-import Application from '../components/application'
 import * as AllActions from '../actions/actions'
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
 import { PropTypes} from 'react'
 
-const App = ({moviesState, actions}) => (
+const listMovies = ({moviesState, actions}) => (
   <div>
-    <Application actions={actions} movies={moviesState} />
+    <List actions={actions} movies={moviesState} />
   </div>
 )
 
-App.propTypes = {
+listMovies.propTypes = {
   actions: PropTypes.object.isRequired
 }
 
@@ -22,10 +20,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators(AllActions, dispatch)
+  actions: bindActionCreators(AllActions, dispatch)
 })
 
 export default connect (
   mapStateToProps,
   mapDispatchToProps
-)(App)
+)(listMovies)

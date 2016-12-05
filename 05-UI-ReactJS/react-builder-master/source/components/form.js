@@ -31,7 +31,7 @@ class Form extends React.Component {
 
   handlerSubmit(event) {
     if (this.props.onSubmit) {
-      this.props.onSubmit(this.state);
+      this.props.onSubmit(this.props.index, this.state);
     }
   }
 

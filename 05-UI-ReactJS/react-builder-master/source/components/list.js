@@ -1,15 +1,15 @@
 import React from 'react';
-import Application from '../components/application';
 import { Link } from 'react-router';
 import Button from './button';
-import {ADD_MOVIE, EDIT_MOVIE, DELETE_MOVE, INITIALIZE} from '../actions/actions';
+import Application from './application';
 
 class List extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      selected: false
+      selected: false,
+      movies: this.props.movies.moviesState
     }
     this.renderItem = this.renderItem.bind(this);
     this.getAllMovies = this.getAllMovies.bind(this);
@@ -29,10 +29,10 @@ class List extends React.Component {
     let favorite = "Not favorite";
     item.fav ? favorite = "Favorite" : favorite = "Not favorite";
     return (
-      <li className="listOfMovies" key={index}>
+      <li key={index}>
         {`Title: ${item.title} Year: ${item.year} Duration: ${item.duration} - ${favorite}`}
-        <Link to={`add/${index}`}className="link-edit">edit</Link>
-        <Button click={this.handleClickDelete.bind(this, index)} clase="link-edit" value="Delete" />
+        <Link to={`add/${index}`}>edit</Link>
+        <Button click={this.handleClickDelete.bind(this, index)} value="Delete" />
       </li>
     );
   }
@@ -43,7 +43,8 @@ class List extends React.Component {
   }
 
   handleClickDelete(index) {
-    this.props.actions.deleteMovie(index)
+    this.props.actions.deleteMovie(index);
+    this.setState({movies: this.props.movies})
   }
 
   getAllMovies() {
